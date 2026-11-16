@@ -1,0 +1,6 @@
+{
+  "trained_policies": 10,
+  "evaluation_tables": 45,
+  "search_runs": 25,
+  "failure_replays": 5
+}

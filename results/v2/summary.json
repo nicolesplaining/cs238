@@ -1,0 +1,398 @@
+{
+  "empirical/generated_empirical": {
+    "policy_seeds": 5,
+    "mean_cost": 3673.004831882882,
+    "cost_seed_std": 739.8390449834898,
+    "per_seed_mean_cost": [
+      4883.178894965943,
+      3261.434967288302,
+      3190.707583895213,
+      3884.2431233537473,
+      3145.459589911207
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "empirical/generated_synthetic": {
+    "policy_seeds": 5,
+    "mean_cost": 3758.078961950767,
+    "cost_seed_std": 666.1930065343245,
+    "per_seed_mean_cost": [
+      4858.705089134656,
+      3427.271212196346,
+      3317.401139677799,
+      3914.5049095185213,
+      3272.5124592265115
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "empirical/historical_shield_soc0.50": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 4006.309214219429,
+    "cost_seed_std": 756.9699351958,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      5233.815217283549,
+      3628.2286036513083,
+      3484.280743760075,
+      4240.2223094124765,
+      3444.9991969897383
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      3482.0344315530665,
+      4651.616971322917
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee.",
+    "mean_end_soc": 0.38683903911357065,
+    "per_seed_mean_end_soc": [
+      0.38148586361036113,
+      0.38862887988556477,
+      0.40380790060190536,
+      0.369721391655232,
+      0.3905511598147899
+    ],
+    "shield_interventions": 0
+  },
+  "empirical/historical_soc0.15": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 7783.430015627989,
+    "cost_seed_std": 820.7711822646799,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      9006.104684528385,
+      7290.935438304733,
+      7056.957260587643,
+      8244.93773110511,
+      7318.214963614071
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      7188.134276183368,
+      8471.753795863631
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee.",
+    "mean_end_soc": 0.38683903911357065,
+    "per_seed_mean_end_soc": [
+      0.38148586361036113,
+      0.38862887988556477,
+      0.40380790060190536,
+      0.369721391655232,
+      0.3905511598147899
+    ],
+    "shield_interventions": 0
+  },
+  "empirical/historical_soc0.50": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 4006.309214219429,
+    "cost_seed_std": 756.9699351958,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      5233.815217283549,
+      3628.2286036513083,
+      3484.280743760075,
+      4240.2223094124765,
+      3444.9991969897383
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      3482.0344315530665,
+      4651.616971322917
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee.",
+    "mean_end_soc": 0.38683903911357065,
+    "per_seed_mean_end_soc": [
+      0.38148586361036113,
+      0.38862887988556477,
+      0.40380790060190536,
+      0.369721391655232,
+      0.3905511598147899
+    ],
+    "shield_interventions": 0
+  },
+  "synthetic/generated_empirical": {
+    "policy_seeds": 5,
+    "mean_cost": 3626.87980618518,
+    "cost_seed_std": 255.38639473478528,
+    "per_seed_mean_cost": [
+      3885.8559141326405,
+      3796.138243708895,
+      3220.8260910359036,
+      3620.5948617882677,
+      3610.9839202601925
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "synthetic/generated_synthetic": {
+    "policy_seeds": 5,
+    "mean_cost": 3641.985746546575,
+    "cost_seed_std": 222.9324647543348,
+    "per_seed_mean_cost": [
+      3853.7590537921324,
+      3854.164761276317,
+      3334.080404179949,
+      3644.74266812744,
+      3523.1818453570386
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ]
+  },
+  "synthetic/historical_soc0.15": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 7439.90653241217,
+    "cost_seed_std": 416.7408838584776,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      7699.875493644261,
+      7792.290732069099,
+      6754.2701943998345,
+      7353.7658500284215,
+      7599.33039191924
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      7080.51366505027,
+      7748.79819747242
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee.",
+    "mean_end_soc": 0.393454824048744,
+    "per_seed_mean_end_soc": [
+      0.3883466917464705,
+      0.3665991382637621,
+      0.41110339784321304,
+      0.40501839075759777,
+      0.3962065016326767
+    ],
+    "shield_interventions": 0
+  },
+  "synthetic/historical_soc0.50": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 3882.960121297893,
+    "cost_seed_std": 256.4026158906795,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      4129.661894482061,
+      4125.169822910531,
+      3520.66490267699,
+      3865.304143735784,
+      3773.9998426840984
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      3639.275445862321,
+      4108.3849571365145
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee.",
+    "mean_end_soc": 0.39354122022970117,
+    "per_seed_mean_end_soc": [
+      0.3883466917464705,
+      0.3665991382637621,
+      0.4115353787479988,
+      0.40501839075759777,
+      0.3962065016326767
+    ],
+    "shield_interventions": 0
+  },
+  "paired_empirical_minus_synthetic/historical_soc0.50": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 123.34909292153614,
+    "cost_seed_std": 640.3434634770923,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      1104.1533228014869,
+      -496.9412192592232,
+      -36.38415891691543,
+      374.91816567669315,
+      -329.0006456943608
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      -332.96297536852325,
+      665.1523273176527
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee."
+  },
+  "paired_empirical_minus_synthetic/historical_soc0.15": {
+    "policy_seeds": 5,
+    "days": 362,
+    "mean_cost": 343.52348321581667,
+    "cost_seed_std": 763.606996070304,
+    "failure_rate": 0.0,
+    "failure_rate_seed_range": [
+      0.0,
+      0.0
+    ],
+    "per_seed_mean_cost": [
+      1306.2291908841241,
+      -501.3552937643669,
+      302.6870661878069,
+      891.1718810766878,
+      -281.1154283051684
+    ],
+    "per_seed_failure_rate": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cost_seed_day_block_bootstrap95": [
+      -246.23117824921883,
+      938.2928919255957
+    ],
+    "failure_seed_day_block_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_seed": 20261116,
+    "bootstrap_draws": 3000,
+    "block_days": 7,
+    "zero_failures_caution": "All-zero failures yield a degenerate bootstrap interval, not a zero-risk guarantee."
+  }
+}

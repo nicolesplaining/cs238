@@ -1,0 +1,28 @@
+{
+  "simulation_seed": 20261116,
+  "simulated_steps": 34944,
+  "heldout_markov_mean_log_probability": -0.5719730296745166,
+  "heldout_time_of_day_iid_mean_log_probability": -2.165954153266611,
+  "heldout_log_score_gain_nats_per_transition": 1.5939811235920947,
+  "heldout_mean": [
+    0.024050407212682014,
+    9.81116288467363e-05
+  ],
+  "simulated_mean": [
+    0.009469557379096974,
+    -0.0019002395560527127
+  ],
+  "heldout_std": [
+    0.038861847039186166,
+    0.050244872502075204
+  ],
+  "simulated_std": [
+    0.031019027824767675,
+    0.041937347306752984
+  ],
+  "simulated_lag1_correlation": [
+    0.9088824641735377,
+    0.9397902169060737
+  ],
+  "caution": "The fitted model compresses tails and does not model the 2019 load-bias shift. Historical replay uses the full unquantized errors."
+}

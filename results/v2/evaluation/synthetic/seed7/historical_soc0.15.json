@@ -1,0 +1,8 @@
+{
+  "episodes": 362,
+  "failed_episodes": 0,
+  "failure_rate": 0.0,
+  "mean_cost": 7699.875493644261,
+  "solver_failures": 0,
+  "interpretation": "Unquantized 2019 national forecast-error traces transferred to ANM6 forecasts. Days are consecutive and not statistically independent."
+}

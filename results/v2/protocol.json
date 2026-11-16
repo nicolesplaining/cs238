@@ -1,0 +1,52 @@
+{
+  "training_seeds": [
+    7,
+    17,
+    27,
+    37,
+    47
+  ],
+  "steps_per_policy": 65536,
+  "training_regimes": [
+    "synthetic",
+    "empirical"
+  ],
+  "policy_selection": "Every listed training seed is reported. Final checkpoint only; no best-seed selection.",
+  "evaluation_clock": "Preserve the trained elapsed/96 observation feature. The 32-step evaluation horizon is only a reporting cutoff.",
+  "generated_evaluation": {
+    "episodes": 200,
+    "seed": 70000,
+    "start_step": 24,
+    "horizon": 32,
+    "initial_soc": 0.5,
+    "regimes": [
+      "synthetic",
+      "empirical"
+    ]
+  },
+  "historical_evaluation": {
+    "year": 2019,
+    "start_step": 24,
+    "horizon": 32,
+    "initial_soc": [
+      0.5,
+      0.15
+    ],
+    "initial_conditions": "Observed initial errors; 15% SoC is below the training initialization range of 25%-75%.",
+    "days": "Every complete local-calendar day; gaps and DST days excluded and listed.",
+    "shield": "Empirical-trained policies, initial_soc=0.5 only."
+  },
+  "search": {
+    "budget": 6000,
+    "seed": 8100,
+    "methods": [
+      "mc",
+      "mcts"
+    ],
+    "persistent_rollout_probability": 0.25,
+    "regime": "Each policy evaluated under its training disturbance regime.",
+    "shield": "Additional matched MCTS runs for empirical-trained policies."
+  },
+  "uncertainty": "Policy seeds and paired seven-day calendar blocks resampled separately; never pool seed-day pairs as independent episodes.",
+  "historical_scope": "Unquantized national residual traces transferred to toy ANM6 forecasts; not historical operation of a real feeder."
+}

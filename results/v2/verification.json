@@ -1,0 +1,14 @@
+{
+  "source_commit": "06da6548a4cc82c33c19a1eb42e5b8eb104e7252",
+  "pytest": {
+    "command": "python -m pytest -q",
+    "passed": 30,
+    "failed": 0,
+    "elapsed_seconds": 3.7
+  },
+  "v1_regression_audit": {
+    "search_runs": 60,
+    "failure_replays": 30,
+    "evaluation_tables": 14
+  }
+}

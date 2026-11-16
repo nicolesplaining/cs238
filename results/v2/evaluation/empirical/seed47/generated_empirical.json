@@ -1,0 +1,18 @@
+{
+  "episodes": 200,
+  "seed": 70000,
+  "shielded": false,
+  "failed_episodes": 0,
+  "failure_rate": 0.0,
+  "failure_rate_wilson95": [
+    1.734723475976807e-18,
+    0.018845326377266575
+  ],
+  "solver_failures": 0,
+  "mean_cost": 3145.459589911207,
+  "cost_standard_error": 53.711602014803184,
+  "mean_return": -3.1454595899112046,
+  "mean_end_soc": 0.3909806746702641,
+  "violation_step_rate": 0.0,
+  "shield_intervention_rate": 0.0
+}
