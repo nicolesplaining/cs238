@@ -27,6 +27,8 @@ def main():
         p.add_argument("--config")
         p.add_argument("--model", required=True)
         p.add_argument("--out", default=f"runs/{name}")
+        p.add_argument("--preserve-training-timebase", action="store_true",
+                       help="Keep the training-time progress feature when evaluating a shorter window; required for v2 replay.")
         if name in ("evaluate", "sensitivity"):
             p.add_argument("--episodes", type=int, default=200)
             p.add_argument("--seed", type=int, default=20000)
@@ -54,7 +56,7 @@ def main():
         from .train import train
         print(json.dumps(train(config, out, args.steps, args.seed), indent=2))
         return
-    policy = load_policy("ppo", args.model)
+    policy = load_policy("ppo", args.model, args.preserve_training_timebase)
     if args.command == "evaluate":
         from .evaluate import evaluate, write_csv, paired_difference
         config.save(out / "config.json")

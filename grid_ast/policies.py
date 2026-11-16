@@ -1,6 +1,8 @@
 """Frozen controllers and a forecast-only action-scaling shield."""
 
 from dataclasses import dataclass
+import json
+from pathlib import Path
 import numpy as np
 from .model import tariff
 
@@ -18,15 +20,50 @@ class RulePolicy:
 
 
 class PPOPolicy:
-    def __init__(self, path):
+    """Load a frozen policy; v2 uses preserve_training_timebase=True.
+
+    The default retains the v1 results' behavior for exact historical replay.
+    New shorter-window evaluations should keep the training observation clock.
+    """
+    def __init__(self, path, preserve_training_timebase=False):
         import torch
         from stable_baselines3 import PPO
         torch.set_num_threads(1)
         self.model = PPO.load(path, device="cpu")
+        config_path = Path(path).parent/"config.json"
+        config = json.loads(config_path.read_text()) if config_path.exists() else {}
+        self.empirical_observation = config.get("disturbance_model") is not None
+        self.training_horizon = int(config.get("horizon", 96)) if preserve_training_timebase else None
 
     def act(self, env, observation):
+        observation = policy_observation(env, observation, self.empirical_observation, self.training_horizon)
         action, _ = self.model.predict(observation, deterministic=True)
         return float(action[0])
+
+
+def policy_observation(env, observation, empirical_training, training_horizon=None):
+    """Keep the solar residual feature's units consistent across noise regimes.
+
+    Legacy policies were trained with solar error / forecast; empirical policies
+    use error / installed capacity. The measured physical features are unchanged.
+    Conversion sets this feature to zero when the PV forecast is zero.
+    """
+    empirical_environment = env.config.disturbance_model is not None
+    if empirical_training == empirical_environment and training_horizon is None:
+        return observation
+    converted = np.array(observation, copy=True)
+    if empirical_training != empirical_environment:
+        forecast = float(env.generators[0, env.time_step])
+        if forecast <= 0:
+            converted[12] = 0.
+        elif empirical_training:
+            converted[12] *= forecast/30
+        else:
+            converted[12] *= 30/forecast
+    if training_horizon is not None:
+        if training_horizon <= 0: raise ValueError("Training horizon must be positive.")
+        converted[16] = env.elapsed/training_horizon
+    return converted
 
 
 @dataclass
@@ -64,11 +101,11 @@ class ForecastShield:
         return ShieldDecision(best, proposed, abs(best-proposed)>1e-9, False, calls)
 
 
-def load_policy(name, model=None):
+def load_policy(name, model=None, preserve_training_timebase=False):
     if name == "idle":
         return IdlePolicy()
     if name == "rule":
         return RulePolicy()
     if name == "ppo" and model:
-        return PPOPolicy(model)
+        return PPOPolicy(model, preserve_training_timebase=preserve_training_timebase)
     raise ValueError("Use idle, rule, or ppo with a model path.")

@@ -12,3 +12,5 @@ writeup/
 *.txt
 !requirements-lock.txt
 runs/
+data/
+*.npz

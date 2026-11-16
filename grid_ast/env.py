@@ -7,7 +7,7 @@ from gym_anm.envs.anm6_env.network import network
 from gym_anm.envs.anm6_env.anm6_easy import _get_load_time_series, _get_gen_time_series
 from gym_anm.simulator.simulator import Simulator
 
-from .model import Config, Disturbances, tariff
+from .model import Config, make_disturbances, tariff
 from .physics import RestrictedSimulator
 
 
@@ -16,7 +16,7 @@ class BatteryEnv(gym.Env):
 
     def __init__(self, config=None):
         self.config = config or Config()
-        self.noise = Disturbances(self.config)
+        self.noise = make_disturbances(self.config)
         sim_type = RestrictedSimulator if self.config.backend == "restricted" else Simulator
         self.sim = sim_type(deepcopy(network), delta_t=0.25, lamb=100)
         self.loads = _get_load_time_series()
@@ -38,7 +38,12 @@ class BatteryEnv(gym.Env):
     def injections(self, time_step, residual):
         load = self.loads[:, time_step] * max(0.0, 1 + residual[0])
         gen = self.generators[:, time_step].copy()
-        gen[0] *= max(0.0, 1 + residual[1])
+        if self.config.disturbance_model is None:
+            gen[0] *= max(0.0, 1 + residual[1])
+        else:
+            # Empirical solar errors are fractions of installed capacity, not
+            # fractions of the forecast. Keep PV zero when its base forecast is zero.
+            gen[0] = max(0.0, gen[0] + 30*residual[1]) if gen[0] > 0 else 0.0
         return dict(zip((1, 3, 5), load)), dict(zip((2, 4), gen))
 
     def _transition(self, sim, time_step, residual, charge_mw):
@@ -55,7 +60,9 @@ class BatteryEnv(gym.Env):
         if not 0 <= self.time_step < 96 or not 0 <= initial_soc <= 1:
             raise ValueError("Invalid initial time or SoC.")
         self.elapsed = 0
-        self.residual = np.zeros(2)
+        self.residual = np.array(options.get("initial_residual", [0., 0.]), dtype=float)
+        if self.residual.shape != (2,) or not np.isfinite(self.residual).all():
+            raise ValueError("Expected two finite initial residuals.")
         self.done = False
         self.power_flow_calls = 0
         self.sim.devices[6].soc = initial_soc  # base is 100 MVA; capacity is 100 MWh.
@@ -63,7 +70,7 @@ class BatteryEnv(gym.Env):
         if not converged:
             raise RuntimeError("Initial AC solve did not converge.")
         info = self._info()
-        if info["voltage_failure"]:
+        if info["voltage_failure"] and not options.get("allow_initial_failure", False):
             raise ValueError("Initial state is already a voltage failure.")
         return self._observation(), info
 
@@ -95,7 +102,9 @@ class BatteryEnv(gym.Env):
                 "distance": float(max(0, min(np.min(v[1:]-c.v_min), np.min(c.v_max-v[1:])))) if converged else None}
 
     def step(self, action):
-        return self.step_disturbance(action, self.noise.sample(self.np_random))
+        if self.done:
+            raise RuntimeError("Reset before stepping a completed episode.")
+        return self.step_disturbance(action, self.noise.sample(self.np_random, self.residual, (self.time_step+1)%96))
 
     def step_disturbance(self, action, disturbance):
         if self.done:
@@ -103,8 +112,24 @@ class BatteryEnv(gym.Env):
         a = np.asarray(action).reshape(-1)
         if a.size != 1 or not np.isfinite(a[0]):
             raise ValueError("Expected one finite normalized battery action.")
-        charge = float(np.clip(a[0], -1, 1)*self.config.battery_mw)
-        self.residual = self.noise.evolve(self.residual, disturbance)
+        next_step = (self.time_step+1)%96
+        residual = self.noise.evolve(self.residual, disturbance, next_step)
+        logp = float(np.log(self.noise.probabilities_at(self.residual, next_step)[disturbance]))
+        return self._step_residual(a, residual, disturbance, logp)
+
+    def step_residual(self, action, residual):
+        """Replay a measured residual vector; it has no discrete model likelihood."""
+        if self.done:
+            raise RuntimeError("Reset before stepping a completed episode.")
+        a = np.asarray(action).reshape(-1)
+        residual = np.asarray(residual, dtype=float)
+        if a.size != 1 or not np.isfinite(a[0]) or residual.shape != (2,) or not np.isfinite(residual).all():
+            raise ValueError("Expected one finite action and two finite residuals.")
+        return self._step_residual(a, residual, None, None)
+
+    def _step_residual(self, action, residual, disturbance, logp):
+        charge = float(np.clip(action[0], -1, 1)*self.config.battery_mw)
+        self.residual = np.asarray(residual, dtype=float).copy()
         self.time_step = (self.time_step + 1) % 96
         self.elapsed += 1
         self._transition(self.sim, self.time_step, self.residual, charge)
@@ -120,19 +145,20 @@ class BatteryEnv(gym.Env):
         truncated = self.elapsed >= self.config.horizon
         self.done = terminated or truncated
         info.update({"requested_charge_mw": charge, "actual_charge_mw": actual_charge,
-                     "cost": float(cost), "disturbance": int(disturbance),
-                     "residual": self.residual.tolist(), "log_probability": float(self.noise.log_probabilities[disturbance])})
+                     "cost": float(cost), "disturbance": disturbance,
+                     "residual": self.residual.tolist(), "log_probability": logp})
         return self._observation(), float(reward), terminated, truncated, info
 
     def forecast_voltage(self, normalized_action):
         """One-step forecast from current residual only; never sees next innovation.
 
         Separate simulator copies prevent shield lookahead from consuming SoC.
-        We use the zero innovation, also the mean innovation in this model.
+        We use the conditional mean residual, which is a zero innovation for
+        the original AR model and a probability-weighted state for the Markov model.
         Clipping means forecast injection need not equal conditional mean injection.
         """
         sim = deepcopy(self.sim)
-        residual = self.noise.evolve(self.residual, self.noise.nominal)
+        residual = self.noise.forecast(self.residual, (self.time_step+1)%96)
         _, _, _, _, ok = self._transition(sim, (self.time_step+1)%96, residual,
                                            float(normalized_action)*self.config.battery_mw)
         v = np.array([sim.state["bus_v_magn"]["pu"][i] for i in range(1, 6)])

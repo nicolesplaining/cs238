@@ -21,8 +21,8 @@ class Node:
     total: float = 0.0
     children: dict = field(default_factory=dict)
 
-    def select(self, rng, exploration):
-        missing = [a for a in range(9) if a not in self.children]
+    def select(self, rng, exploration, n_actions=9):
+        missing = [a for a in range(n_actions) if a not in self.children]
         if missing:
             a = int(rng.choice(missing))
             self.children[a] = Node()
@@ -61,7 +61,7 @@ def search(config, policy, method="mcts", budget=10000, seed=1000, shielded=Fals
     unique, modes, history = set(), set(), []
     flow_calls = resets = shield_predictions = 0
     started = time.perf_counter()
-    alpha = -config.horizon*float(min(env.noise.log_probabilities))+1
+    alpha = -config.horizon*env.noise.min_log_probability+1
     while used < budget:
         observation, info = env.reset(seed=seed)
         resets += 1
@@ -72,17 +72,17 @@ def search(config, policy, method="mcts", budget=10000, seed=1000, shielded=Fals
         persistent_action = None
         if method == "mcts" and persistent_rollout_probability > 0:
             if rng.random() < persistent_rollout_probability:
-                persistent_action = int(rng.integers(9))
+                persistent_action = int(rng.integers(env.noise.n_actions))
         sequence, trajectory, logp = [], [], 0.0
         failed = invalid = False
         for t in range(config.horizon):
             if used >= budget:
                 break
             if method == "mcts" and not expanding:
-                a, node, expanding = node.select(rng, exploration)
+                a, node, expanding = node.select(rng, exploration, env.noise.n_actions)
                 visited.append(node)
             else:
-                a = persistent_action if persistent_action is not None else env.noise.sample(rng)
+                a = persistent_action if persistent_action is not None else env.noise.sample(rng, env.residual, (env.time_step+1)%96)
             # Controller action is selected before the chosen disturbance is applied.
             action, decision = action_for(env, policy, observation, shield)
             if decision:
@@ -116,7 +116,7 @@ def search(config, policy, method="mcts", budget=10000, seed=1000, shielded=Fals
         if invalid:
             solver_failures += 1
         score = terminal_score(logp, failed, info["distance"] if not invalid else 1.0,
-                               config.horizon, float(min(env.noise.log_probabilities)))
+                               config.horizon, env.noise.min_log_probability)
         if method == "mcts":
             for n in visited:
                 n.visits += 1

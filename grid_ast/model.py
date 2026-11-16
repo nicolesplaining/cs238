@@ -31,6 +31,7 @@ class Config:
     throughput_price: float = 2.0
     random_start: bool = False
     backend: str = "restricted"
+    disturbance_model: dict | None = None
 
     def __post_init__(self):
         if self.horizon < 1 or not 0 <= self.start_step < 96:
@@ -73,18 +74,33 @@ class Disturbances:
         self.probabilities = np.array([p[int(x)]*p[int(y)] for x, y in self.values])
         self.log_probabilities = np.log(self.probabilities)
         self.nominal = 4
+        self.n_actions = len(self.values)
+        self.min_log_probability = float(self.log_probabilities.min())
 
-    def sample(self, rng):
+    def probabilities_at(self, residual, next_step):
+        return self.probabilities
+
+    def sample(self, rng, residual=None, next_step=None):
         return int(rng.choice(len(self.values), p=self.probabilities))
 
-    def evolve(self, residual, action):
+    def evolve(self, residual, action, next_step=None):
         if not isinstance(action, (int, np.integer)) or not 0 <= action < len(self.values):
             raise ValueError("Disturbance action must be an integer in [0, 9).")
         c = self.config
         return np.array([c.load_rho, c.solar_rho])*residual + np.array([c.load_sigma, c.solar_sigma])*self.values[action]
 
-    def log_probability(self, sequence):
+    def forecast(self, residual, next_step):
+        return self.evolve(residual, self.nominal)
+
+    def log_probability(self, sequence, start_step=0, residual=None):
         return float(sum(self.log_probabilities[int(a)] for a in sequence))
+
+
+def make_disturbances(config):
+    if config.disturbance_model is not None:
+        from .empirical import MarkovDisturbances
+        return MarkovDisturbances(config.disturbance_model)
+    return Disturbances(config)
 
 
 def tariff(step):
