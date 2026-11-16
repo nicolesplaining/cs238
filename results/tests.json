@@ -1,0 +1,7 @@
+{
+  "command": "python -m pytest -q",
+  "passed": 18,
+  "failed": 0,
+  "elapsed_seconds": 2.843,
+  "source_commit": "c6ea430a0aca1e1c3df0103e1e71473fa5001e88"
+}

@@ -1,0 +1,18 @@
+{
+  "horizon": 32,
+  "start_step": 24,
+  "initial_soc": 0.5,
+  "battery_mw": 20.0,
+  "load_rho": 0.8,
+  "solar_rho": 0.7,
+  "load_sigma": 0.12,
+  "solar_sigma": 0.25,
+  "innovation_tail_probability": 0.1,
+  "v_min": 0.95,
+  "v_max": 1.05,
+  "shield_margin": 0.005,
+  "voltage_penalty": 3000.0,
+  "throughput_price": 2.0,
+  "random_start": false,
+  "backend": "restricted"
+}

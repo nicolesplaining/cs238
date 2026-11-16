@@ -1,0 +1,50 @@
+{
+  "ppo": {
+    "episodes": 100,
+    "seed": 30000,
+    "shielded": false,
+    "failed_episodes": 5,
+    "failure_rate": 0.05,
+    "failure_rate_wilson95": [
+      0.02154367915436796,
+      0.11175046923191913
+    ],
+    "solver_failures": 0,
+    "mean_cost": 4924.809768510085,
+    "cost_standard_error": 245.4853948117148,
+    "mean_return": -5.1952600830922275,
+    "mean_end_soc": 0.40753794935813376,
+    "violation_step_rate": 0.0021875,
+    "shield_intervention_rate": 0.0
+  },
+  "ppo_shield": {
+    "episodes": 100,
+    "seed": 30000,
+    "shielded": true,
+    "failed_episodes": 5,
+    "failure_rate": 0.05,
+    "failure_rate_wilson95": [
+      0.02154367915436796,
+      0.11175046923191913
+    ],
+    "solver_failures": 0,
+    "mean_cost": 4924.809768510085,
+    "cost_standard_error": 245.4853948117148,
+    "mean_return": -5.1952600830922275,
+    "mean_end_soc": 0.40753794935813376,
+    "violation_step_rate": 0.0021875,
+    "shield_intervention_rate": 0.0
+  },
+  "paired_shield_effect": {
+    "shield_minus_unshielded_failure_rate": 0.0,
+    "paired_bootstrap95": [
+      0.0,
+      0.0
+    ],
+    "prevented_in_sample": 0,
+    "introduced_in_sample": 0,
+    "mean_cost_difference": 0.0,
+    "bootstrap_seed": 2026,
+    "caution": "Interval covers sampled disturbances for one frozen policy, not policy-training variation; degenerates if no discordant pairs."
+  }
+}

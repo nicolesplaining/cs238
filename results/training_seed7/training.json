@@ -1,0 +1,18 @@
+{
+  "seed": 7,
+  "requested_steps": 32768,
+  "actual_steps": 32768,
+  "elapsed_seconds": 56.52822183404351,
+  "versions": {
+    "python": "3.11.15",
+    "gym-anm": "2.0.1",
+    "gymnasium": "1.4.0",
+    "stable-baselines3": "2.9.2",
+    "torch": "2.15.0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "config": "work/cs238/results/training_seed7/config.json",
+  "policy": "PPO MLP [64, 64]",
+  "evaluation": "deterministic mean action; no test-time training"
+}

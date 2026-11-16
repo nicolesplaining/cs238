@@ -1,0 +1,166 @@
+{
+  "comparison": {
+    "mc_raw": {
+      "runs": 5,
+      "runs_with_failure": 0,
+      "transitions_per_run": 6000,
+      "failed_rollouts_range": [
+        0,
+        0
+      ],
+      "unique_failure_prefixes_range": [
+        0,
+        0
+      ],
+      "best_log_probability": null,
+      "median_best_log_probability": null,
+      "total_power_flows": 30940,
+      "total_seconds": 46.81390291691059
+    },
+    "mcts_raw": {
+      "runs": 5,
+      "runs_with_failure": 5,
+      "transitions_per_run": 6000,
+      "failed_rollouts_range": [
+        11,
+        17
+      ],
+      "unique_failure_prefixes_range": [
+        11,
+        17
+      ],
+      "best_log_probability": -38.33221676725224,
+      "median_best_log_probability": -40.411658308932076,
+      "total_power_flows": 30975,
+      "total_seconds": 46.21149633202003
+    },
+    "mc_shield": {
+      "runs": 5,
+      "runs_with_failure": 0,
+      "transitions_per_run": 6000,
+      "failed_rollouts_range": [
+        0,
+        0
+      ],
+      "unique_failure_prefixes_range": [
+        0,
+        0
+      ],
+      "best_log_probability": null,
+      "median_best_log_probability": null,
+      "total_power_flows": 60948,
+      "total_seconds": 106.42028354201466
+    },
+    "mcts_shield": {
+      "runs": 5,
+      "runs_with_failure": 5,
+      "transitions_per_run": 6000,
+      "failed_rollouts_range": [
+        11,
+        17
+      ],
+      "unique_failure_prefixes_range": [
+        11,
+        17
+      ],
+      "best_log_probability": -38.33221676725224,
+      "median_best_log_probability": -40.411658308932076,
+      "total_power_flows": 61307,
+      "total_seconds": 105.22111495904392
+    }
+  },
+  "nominal_evaluation": {
+    "idle": {
+      "episodes": 200,
+      "seed": 20000,
+      "shielded": false,
+      "failed_episodes": 0,
+      "failure_rate": 0.0,
+      "failure_rate_wilson95": [
+        1.734723475976807e-18,
+        0.018845326377266575
+      ],
+      "solver_failures": 0,
+      "mean_cost": 9856.777978732389,
+      "cost_standard_error": 97.35886701753623,
+      "mean_return": -9.85677797873239,
+      "mean_end_soc": 0.5,
+      "violation_step_rate": 0.0,
+      "shield_intervention_rate": 0.0
+    },
+    "rule": {
+      "episodes": 200,
+      "seed": 20000,
+      "shielded": false,
+      "failed_episodes": 20,
+      "failure_rate": 0.1,
+      "failure_rate_wilson95": [
+        0.06567044866909588,
+        0.1494058124327174
+      ],
+      "solver_failures": 0,
+      "mean_cost": 4819.247361215454,
+      "cost_standard_error": 86.41020475394076,
+      "mean_return": -5.329746715185437,
+      "mean_end_soc": 0.3944444444444441,
+      "violation_step_rate": 0.00359375,
+      "shield_intervention_rate": 0.0
+    },
+    "ppo": {
+      "episodes": 200,
+      "seed": 20000,
+      "shielded": false,
+      "failed_episodes": 0,
+      "failure_rate": 0.0,
+      "failure_rate_wilson95": [
+        1.734723475976807e-18,
+        0.018845326377266575
+      ],
+      "solver_failures": 0,
+      "mean_cost": 4500.306467874311,
+      "cost_standard_error": 94.37584239545302,
+      "mean_return": -4.500306467874309,
+      "mean_end_soc": 0.40506612211503096,
+      "violation_step_rate": 0.0,
+      "shield_intervention_rate": 0.0
+    },
+    "ppo_shield": {
+      "episodes": 200,
+      "seed": 20000,
+      "shielded": true,
+      "failed_episodes": 0,
+      "failure_rate": 0.0,
+      "failure_rate_wilson95": [
+        1.734723475976807e-18,
+        0.018845326377266575
+      ],
+      "solver_failures": 0,
+      "mean_cost": 4500.306467874311,
+      "cost_standard_error": 94.37584239545302,
+      "mean_return": -4.500306467874309,
+      "mean_end_soc": 0.40506612211503096,
+      "violation_step_rate": 0.0,
+      "shield_intervention_rate": 0.0
+    },
+    "paired_shield_effect": {
+      "shield_minus_unshielded_failure_rate": 0.0,
+      "paired_bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "prevented_in_sample": 0,
+      "introduced_in_sample": 0,
+      "mean_cost_difference": 0.0,
+      "bootstrap_seed": 2026,
+      "caution": "Interval covers sampled disturbances for one frozen policy, not policy-training variation; degenerates if no discordant pairs."
+    }
+  },
+  "representative_failure": {
+    "seed": 6001,
+    "length": 16,
+    "log_probability": -38.33221676725224,
+    "minimum_voltage": 0.9489980129767928,
+    "soc": 0.0,
+    "shield_also_fails": true
+  }
+}
