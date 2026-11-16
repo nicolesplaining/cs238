@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cs238-grid-ast"
+version = "0.1.0"
+description = "Adaptive stress testing of a battery controller on Gym-ANM's six-bus AC network"
+requires-python = ">=3.11"
+dependencies = [
+  "gym-anm==2.0.1",
+  "stable-baselines3==2.9.2",
+  "numpy==2.4.6",
+  "scipy==1.17.1",
+  "matplotlib==3.11.2",
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.2.0"]
+
+[project.scripts]
+grid-ast = "grid_ast.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["grid_ast*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
